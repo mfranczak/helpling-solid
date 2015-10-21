@@ -1,0 +1,16 @@
+{
+    "name": "helpling/devtalks-solid",
+    "authors": [
+        {
+            "name": "mfranczakhelpling",
+            "email": "michal.franczak@helpling.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Helpling\\": "src/"}
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    }
+}
