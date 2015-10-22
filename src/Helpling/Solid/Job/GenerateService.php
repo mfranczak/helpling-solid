@@ -11,7 +11,7 @@ namespace Helpling\Solid\Job;
 use Helpling\Solid\Job\Generator\OrderTypeStrategyResolver;
 use Helpling\Solid\Order\OrderRepository;
 
-class JobService
+class GenerateService
 {
     const DAYS_IN_FUTURE = 30;
 

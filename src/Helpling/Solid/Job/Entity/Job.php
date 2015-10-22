@@ -55,7 +55,7 @@ class Job
     }
 
     /**
-     * @return string
+     * @return \DateTime
      */
     public function getAppointment()
     {
