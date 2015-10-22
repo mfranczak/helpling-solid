@@ -8,7 +8,7 @@
 namespace Helpling\Console\Command;
 
 
-use Helpling\Solid\Job\Repository\JobRepositoryInterface;
+use Helpling\Solid\Job\JobRepositoryInterface;
 use Helpling\SystemService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,7 +39,7 @@ class JobsListCommand extends Command
         $jobs = $this->jobRepository->getJobs($input->getArgument('reference'));
         $output->writeln(sprintf('Number of jobs: %d', count($jobs)));
         foreach ($jobs as $job) {
-            $output->writeln(sprintf("%s  |  %s  |  %s", $job->getReference(), $job->getOrderReference(), $job->getAppointment()->format('Y-m-d H:i:s')));
+            $output->writeln(sprintf("%s  |  %s  |  %s", $job->getReference(), $job->getOrderReference(), $job->getAppointment()->format("Y-m-d H:i:s")));
         }
     }
 

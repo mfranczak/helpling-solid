@@ -21,7 +21,7 @@ class GenerateService
     private $orderRepository;
 
     /**
-     * @var JobRepository
+     * @var JobRepositoryInterface
      */
     private $jobRepository;
 
@@ -32,7 +32,7 @@ class GenerateService
 
     public function __construct(
         OrderRepository $orderRepository,
-        JobRepository $jobRepository,
+        JobRepositoryInterface $jobRepository,
         OrderTypeStrategyResolver $generateStrategyResolver
     ) {
         $this->orderRepository = $orderRepository;

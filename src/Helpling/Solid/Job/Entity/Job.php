@@ -21,17 +21,16 @@ class Job
     private $orderReference;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $appointment;
 
     /**
-     * Job constructor.
-     * @param string $reference
      * @param string $orderReference
-     * @param string $appointment
+     * @param \DateTime $appointment
+     * @param string|null $reference
      */
-    public function __construct($orderReference, $appointment, $reference = null)
+    public function __construct($orderReference, \DateTime $appointment, $reference = null)
     {
         $this->reference = (empty($reference) ? $this->generateReference() : $reference);
         $this->orderReference = $orderReference;
