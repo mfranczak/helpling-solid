@@ -18,6 +18,20 @@ class FizzBuzzService
      */
     public function generate($n)
     {
-        return [];
+        $result = [];
+
+        for ($i = 1; $i <= $n; $i++) {
+            if ($i % 3 == 0 && $i % 5 == 0) {
+                $result[] = 'FizzBuzz';
+            } elseif ($i % 3 == 0) {
+                $result[] = 'Fizz';
+            } elseif ($i % 5 == 0) {
+                $result[] = 'Buzz';
+            } else {
+                $result[] = $i;
+            }
+        }
+
+        return $result;
     }
 }
