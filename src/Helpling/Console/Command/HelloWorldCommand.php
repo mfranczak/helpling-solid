@@ -16,7 +16,8 @@ class HelloWorldCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('helpling:hello');
+        $this->setName('helpling:hello')
+             ->setDescription('Run this to test if the project is working');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
