@@ -8,6 +8,9 @@
 namespace Helpling\Solid\Job;
 
 
+use Helpling\Solid\Job\Repository\FindJobsByOrderInterface;
+use Helpling\Solid\Job\Repository\PersistJobInterface;
+
 class ExportService
 {
     /**

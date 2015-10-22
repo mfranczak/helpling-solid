@@ -7,10 +7,10 @@
 
 namespace Helpling\Solid\Job;
 
+use Helpling\Solid\Job\Entity\Job;
+use Helpling\Solid\Job\Repository\JobRepositoryInterface;
 
-use Helpling\Iterator\CollectionIterator;
-
-class JobRepository
+class JobRepository implements JobRepositoryInterface
 {
     /**
      * @var \PDO
@@ -31,7 +31,7 @@ class JobRepository
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':reference', $reference);
         $stmt->execute();
-        return new CollectionIterator($stmt->fetchAll(\PDO::FETCH_OBJ));
+        return $this->convert($stmt->fetchAll(\PDO::FETCH_OBJ));
     }
 
     /**
@@ -45,5 +45,15 @@ class JobRepository
         $sql = "INSERT INTO jobs (reference, order_reference, appointment) VALUES ('$reference', '$orderReference', '$appointment')";
         $stmt = $this->dbh->prepare($sql);
         return $stmt->execute();
+    }
+
+    private function convert($array)
+    {
+        $result = [];
+        foreach ($array as $object)
+        {
+            $result[] = new Job($object->order_reference, new \DateTime($object->appointment), $object->reference);
+        }
+        return $result;
     }
 }

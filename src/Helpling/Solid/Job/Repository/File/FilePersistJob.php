@@ -8,7 +8,7 @@
 namespace Helpling\Solid\Job\Repository\File;
 
 
-use Helpling\Solid\Job\PersistJobInterface;
+use Helpling\Solid\Job\Repository\PersistJobInterface;
 
 class FilePersistJob implements PersistJobInterface
 {
