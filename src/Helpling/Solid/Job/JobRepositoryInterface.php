@@ -8,21 +8,7 @@
 namespace Helpling\Solid\Job;
 
 
-use Helpling\Solid\Job\Entity\Job;
-
-interface JobRepositoryInterface
+interface JobRepositoryInterface extends PersistJobInterface, FindJobsByOrderInterface
 {
-    /**
-     * @param string $reference
-     * @return Job[]
-     */
-    public function getJobs($reference);
 
-    /**
-     * @param $reference
-     * @param $orderReference
-     * @param \DateTime $date
-     * @return mixed
-     */
-    public function persistJob($reference, $orderReference, \DateTime $date);
 }

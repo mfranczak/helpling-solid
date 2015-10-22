@@ -8,7 +8,7 @@
 namespace Helpling\Console\Command;
 
 
-use Helpling\Solid\Job\JobService;
+use Helpling\Solid\Job\GenerateService;
 use Helpling\SystemService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,7 +19,7 @@ class JobsGenerateCommand extends Command
 {
     private $jobService;
 
-    public function setSystemService(JobService $jobService)
+    public function setSystemService(GenerateService $jobService)
     {
         $this->jobService = $jobService;
     }

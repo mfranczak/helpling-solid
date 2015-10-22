@@ -9,13 +9,16 @@ namespace Helpling\Console;
 
 
 use Helpling\Console\Command\HelloWorldCommand;
+use Helpling\Console\Command\JobsExportCommand;
 use Helpling\Console\Command\JobsGenerateCommand;
 use Helpling\Console\Command\JobsListCommand;
 use Helpling\Console\Command\OrderShowCommand;
+use Helpling\Solid\Job\ExportService;
+use Helpling\Solid\Job\FilePersistJob;
+use Helpling\Solid\Job\GenerateService;
 use Helpling\Solid\Job\Generator\FrequentGenerateStrategy;
 use Helpling\Solid\Job\Generator\OneJobGenerateStrategy;
 use Helpling\Solid\Job\Generator\OrderTypeStrategyResolver;
-use Helpling\Solid\Job\JobService;
 use Helpling\Solid\Job\MongoJobRepository;
 use Helpling\Solid\Job\SqliteJobRepository;
 use Helpling\Solid\Order\OrderRepository;
@@ -60,11 +63,21 @@ class Application extends \Symfony\Component\Console\Application
             $strategyResolver->addStrategy('weekly', new FrequentGenerateStrategy(7));
             $strategyResolver->addStrategy('biweekly', new FrequentGenerateStrategy(14));
 
-            return new JobService(
+            return new GenerateService(
                 $c['orderRepository'],
                 $c['jobRepository'],
                 $strategyResolver
             );
+        };
+
+        $this->container['exportService'] = function ($c) {
+            $filePersist = new FilePersistJob('/tmp/jobs.log');
+            $service = new ExportService(
+                $c['jobRepository'],
+                $filePersist
+
+            );
+            return $service;
         };
     }
 
@@ -77,6 +90,14 @@ class Application extends \Symfony\Component\Console\Application
         $this->add($this->createOrderShowCommand());
         $this->add($this->createJobsListCommand());
         $this->add($this->createJobsGenerateCommand());
+        $this->add($this->createJobsExportCommand());
+    }
+
+    private function createJobsExportCommand()
+    {
+        $cmd = new JobsExportCommand();
+        $cmd->setExportService($this->container['exportService']);
+        return $cmd;
     }
 
     private function createOrderShowCommand()
