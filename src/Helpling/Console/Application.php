@@ -15,7 +15,6 @@ use Helpling\Console\Command\OrderShowCommand;
 use Helpling\Solid\Job\JobRepository;
 use Helpling\Solid\Job\JobService;
 use Helpling\Solid\Order\OrderRepository;
-use Helpling\SystemService;
 use Pimple\Container;
 
 class Application extends \Symfony\Component\Console\Application
@@ -47,11 +46,11 @@ class Application extends \Symfony\Component\Console\Application
         };
 
         $this->container['jobRepository'] = function ($c) {
-            return new JobRepository($c['pdo']);
+            return new JobRepository();
         };
 
         $this->container['orderRepository'] = function ($c) {
-            return new OrderRepository($c['pdo']);
+            return new OrderRepository();
         };
 
         $this->container['jobService'] = function ($c) {

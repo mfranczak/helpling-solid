@@ -49,35 +49,6 @@ class JobService
         }
 
         $createdJobs = 0;
-        switch ($order->type) {
-            case 'once':
-                $result = $this->jobRepository->persistJob($orderReference, new \DateTime());
-                if ($result) {
-                    $createdJobs++;
-                }
-                break;
-            case 'weekly':
-                $today = new \DateTime();
-                $date = new \DateTime();
-                $delta = 7;
-                $time = 0;
-                $queries = 0;
-
-                while ($today->diff($date)->format('%a') < 30) {
-                    $date = new \DateTime('+' . $time . 'days');
-                    $result = $this->jobRepository->persistJob($orderReference, $date);
-                    $queries++;
-                    $time += $delta;
-                }
-
-                if ($result) {
-                    $createdJobs = $queries;
-                }
-                break;
-            default:
-                throw new \RuntimeException('Can not generate jobs for orderType=' . $order->type);
-        }
-
         return $createdJobs;
     }
 }
