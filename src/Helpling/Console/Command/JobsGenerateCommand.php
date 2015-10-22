@@ -8,6 +8,7 @@
 namespace Helpling\Console\Command;
 
 
+use Helpling\Solid\Job\JobService;
 use Helpling\SystemService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,14 +17,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class JobsGenerateCommand extends Command
 {
-    /**
-     * @var SystemService
-     */
-    private $systemService;
+    private $jobService;
 
-    public function setSystemService(SystemService $systemService)
+    public function setSystemService(JobService $jobService)
     {
-        $this->systemService = $systemService;
+        $this->jobService = $jobService;
     }
 
     protected function configure()
@@ -35,7 +33,7 @@ class JobsGenerateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $generatedJobs = $this->systemService->generateJobs($input->getArgument('reference'));
+        $generatedJobs = $this->jobService->generateJobs($input->getArgument('reference'));
         $output->writeln(sprintf('Number of generated jobs: %d', $generatedJobs));
     }
 

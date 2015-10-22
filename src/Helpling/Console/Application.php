@@ -12,6 +12,9 @@ use Helpling\Console\Command\HelloWorldCommand;
 use Helpling\Console\Command\JobsGenerateCommand;
 use Helpling\Console\Command\JobsListCommand;
 use Helpling\Console\Command\OrderShowCommand;
+use Helpling\Solid\Job\JobRepository;
+use Helpling\Solid\Job\JobService;
+use Helpling\Solid\Order\OrderRepository;
 use Helpling\SystemService;
 use Pimple\Container;
 
@@ -43,9 +46,18 @@ class Application extends \Symfony\Component\Console\Application
             return $dbh;
         };
 
-        $this->container['systemService'] = function($c) {
-            return new SystemService(
-                $c['pdo']
+        $this->container['jobRepository'] = function ($c) {
+            return new JobRepository($c['pdo']);
+        };
+
+        $this->container['orderRepository'] = function ($c) {
+            return new OrderRepository($c['pdo']);
+        };
+
+        $this->container['jobService'] = function ($c) {
+            return new JobService(
+                $c['orderRepository'],
+                $c['jobRepository']
             );
         };
     }
@@ -64,21 +76,21 @@ class Application extends \Symfony\Component\Console\Application
     private function createOrderShowCommand()
     {
         $cmd = new OrderShowCommand();
-        $cmd->setSystemService($this->container['systemService']);
+        $cmd->setOrderRepository($this->container['orderRepository']);
         return $cmd;
     }
 
     private function createJobsListCommand()
     {
         $cmd = new JobsListCommand();
-        $cmd->setSystemService($this->container['systemService']);
+        $cmd->setJobRepository($this->container['jobRepository']);
         return $cmd;
     }
 
     private function createJobsGenerateCommand()
     {
         $cmd = new JobsGenerateCommand();
-        $cmd->setSystemService($this->container['systemService']);
+        $cmd->setSystemService($this->container['jobService']);
         return $cmd;
     }
 }

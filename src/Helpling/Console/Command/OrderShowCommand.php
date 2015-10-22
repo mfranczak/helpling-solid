@@ -8,6 +8,7 @@
 namespace Helpling\Console\Command;
 
 
+use Helpling\Solid\Order\OrderRepository;
 use Helpling\SystemService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,13 +18,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class OrderShowCommand extends Command
 {
     /**
-     * @var SystemService
+     * @var OrderRepository
      */
-    private $systemService;
+    private $orderRepository;
 
-    public function setSystemService(SystemService $systemService)
+    public function setOrderRepository(OrderRepository $orderRepository)
     {
-        $this->systemService = $systemService;
+        $this->orderRepository = $orderRepository;
     }
 
     protected function configure()
@@ -36,7 +37,7 @@ class OrderShowCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $orderRef = $input->getArgument('reference');
-        $result = $this->systemService->getOrder($orderRef);
+        $result = $this->orderRepository->getOrder($orderRef);
         $output->writeln($this->formatResult($result, $orderRef));
     }
 
