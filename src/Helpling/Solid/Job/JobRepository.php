@@ -8,6 +8,8 @@
 namespace Helpling\Solid\Job;
 
 
+use Helpling\Iterator\CollectionIterator;
+
 class JobRepository
 {
     /**
@@ -29,7 +31,7 @@ class JobRepository
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':reference', $reference);
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+        return new CollectionIterator($stmt->fetchAll(\PDO::FETCH_OBJ));
     }
 
     /**
