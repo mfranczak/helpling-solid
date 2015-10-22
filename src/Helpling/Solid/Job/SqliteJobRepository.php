@@ -8,9 +8,9 @@
 namespace Helpling\Solid\Job;
 
 
-use Helpling\Iterator\CollectionIterator;
+use Helpling\Solid\Job\Entity\Job;
 
-class JobRepository
+class SqliteJobRepository implements JobRepositoryInterface
 {
     /**
      * @var \PDO
@@ -31,7 +31,8 @@ class JobRepository
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':reference', $reference);
         $stmt->execute();
-        return new CollectionIterator($stmt->fetchAll(\PDO::FETCH_OBJ));
+
+        return $this->convert($stmt->fetchAll(\PDO::FETCH_OBJ));
     }
 
     /**
@@ -46,4 +47,15 @@ class JobRepository
         $stmt = $this->dbh->prepare($sql);
         return $stmt->execute();
     }
+
+    private function convert($array)
+    {
+        $result = [];
+        foreach ($array as $object)
+        {
+            $result[] = new Job($object->order_reference, new \DateTime($object->appointment), $object->reference);
+        }
+        return $result;
+    }
+
 }

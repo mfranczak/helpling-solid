@@ -15,14 +15,17 @@ use Helpling\Console\Command\OrderShowCommand;
 use Helpling\Solid\Job\Generator\FrequentGenerateStrategy;
 use Helpling\Solid\Job\Generator\OneJobGenerateStrategy;
 use Helpling\Solid\Job\Generator\OrderTypeStrategyResolver;
-use Helpling\Solid\Job\JobRepository;
 use Helpling\Solid\Job\JobService;
+use Helpling\Solid\Job\MongoJobRepository;
+use Helpling\Solid\Job\SqliteJobRepository;
 use Helpling\Solid\Order\OrderRepository;
 use Helpling\SystemService;
 use Pimple\Container;
 
 class Application extends \Symfony\Component\Console\Application
 {
+    const DEFAULT_JOB_REPOSITORY = 'mongoJobRepository';
+
     /**
      * @var Container
      */
@@ -43,15 +46,9 @@ class Application extends \Symfony\Component\Console\Application
      */
     private function registerServices()
     {
-        $this->container['pdo'] = function ($c) {
-            $dsn = 'sqlite:/vagrant/app/data/helpling.db';
-            $dbh = new \PDO($dsn);
-            return $dbh;
-        };
+        $this->registerDatabases();
 
-        $this->container['jobRepository'] = function ($c) {
-            return new JobRepository($c['pdo']);
-        };
+        $this->registerJobRepository(self::DEFAULT_JOB_REPOSITORY);
 
         $this->container['orderRepository'] = function ($c) {
             return new OrderRepository($c['pdo']);
@@ -101,5 +98,35 @@ class Application extends \Symfony\Component\Console\Application
         $cmd = new JobsGenerateCommand();
         $cmd->setSystemService($this->container['jobService']);
         return $cmd;
+    }
+
+    private function registerJobRepository($defaultRepository)
+    {
+        $this->container['sqliteJobRepository'] = function ($c) {
+            return new SqliteJobRepository($c['pdo']);
+        };
+
+        $this->container['mongoJobRepository'] = function ($c) {
+            $collection = $c['mongodb']->jobs;
+            return new MongoJobRepository($collection);
+        };
+
+        $this->container['jobRepository'] = function ($c) use ($defaultRepository) {
+            return $c[$defaultRepository];
+        };
+    }
+
+    private function registerDatabases()
+    {
+        $this->container['pdo'] = function ($c) {
+            $dsn = 'sqlite:/vagrant/app/data/helpling.db';
+            $dbh = new \PDO($dsn);
+            return $dbh;
+        };
+
+        $this->container['mongodb'] = function ($c) {
+            $client = new \MongoClient();
+            return $client->helpling;
+        };
     }
 }
