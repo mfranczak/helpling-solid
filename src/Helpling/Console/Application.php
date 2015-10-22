@@ -12,6 +12,9 @@ use Helpling\Console\Command\HelloWorldCommand;
 use Helpling\Console\Command\JobsGenerateCommand;
 use Helpling\Console\Command\JobsListCommand;
 use Helpling\Console\Command\OrderShowCommand;
+use Helpling\Solid\Job\Generator\FrequentGenerateStrategy;
+use Helpling\Solid\Job\Generator\OneJobGenerateStrategy;
+use Helpling\Solid\Job\Generator\OrderTypeStrategyResolver;
 use Helpling\Solid\Job\JobRepository;
 use Helpling\Solid\Job\JobService;
 use Helpling\Solid\Order\OrderRepository;
@@ -55,9 +58,15 @@ class Application extends \Symfony\Component\Console\Application
         };
 
         $this->container['jobService'] = function ($c) {
+            $strategyResolver = new OrderTypeStrategyResolver();
+            $strategyResolver->addStrategy('once', new OneJobGenerateStrategy());
+            $strategyResolver->addStrategy('weekly', new FrequentGenerateStrategy(7));
+            $strategyResolver->addStrategy('biweekly', new FrequentGenerateStrategy(14));
+
             return new JobService(
                 $c['orderRepository'],
-                $c['jobRepository']
+                $c['jobRepository'],
+                $strategyResolver
             );
         };
     }

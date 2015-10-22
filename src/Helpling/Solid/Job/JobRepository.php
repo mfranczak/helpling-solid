@@ -37,9 +37,8 @@ class JobRepository
      * @param \DateTime $date
      * @return bool
      */
-    public function persistJob($orderReference, \DateTime $date)
+    public function persistJob($reference, $orderReference, \DateTime $date)
     {
-        $reference = substr(md5(rand(1000, 9999) . time() . $orderReference), 0, 6);
         $appointment = $date->format('Y-m-d H:i:s');
         $sql = "INSERT INTO jobs (reference, order_reference, appointment) VALUES ('$reference', '$orderReference', '$appointment')";
         $stmt = $this->dbh->prepare($sql);

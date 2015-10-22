@@ -8,10 +8,13 @@
 namespace Helpling\Solid\Job;
 
 
+use Helpling\Solid\Job\Generator\OrderTypeStrategyResolver;
 use Helpling\Solid\Order\OrderRepository;
 
 class JobService
 {
+    const DAYS_IN_FUTURE = 30;
+
     /**
      * @var OrderRepository
      */
@@ -22,12 +25,19 @@ class JobService
      */
     private $jobRepository;
 
+    /**
+     * @var OrderTypeStrategyResolver
+     */
+    private $generateStrategyResolver;
+
     public function __construct(
         OrderRepository $orderRepository,
-        JobRepository $jobRepository
+        JobRepository $jobRepository,
+        OrderTypeStrategyResolver $generateStrategyResolver
     ) {
         $this->orderRepository = $orderRepository;
         $this->jobRepository = $jobRepository;
+        $this->generateStrategyResolver = $generateStrategyResolver;
     }
 
     /**
@@ -48,36 +58,16 @@ class JobService
             return 0;
         }
 
-        $createdJobs = 0;
-        switch ($order->type) {
-            case 'once':
-                $result = $this->jobRepository->persistJob($orderReference, new \DateTime());
-                if ($result) {
-                    $createdJobs++;
-                }
-                break;
-            case 'weekly':
-                $today = new \DateTime();
-                $date = new \DateTime();
-                $delta = 7;
-                $time = 0;
-                $queries = 0;
-
-                while ($today->diff($date)->format('%a') < 30) {
-                    $date = new \DateTime('+' . $time . 'days');
-                    $result = $this->jobRepository->persistJob($orderReference, $date);
-                    $queries++;
-                    $time += $delta;
-                }
-
-                if ($result) {
-                    $createdJobs = $queries;
-                }
-                break;
-            default:
-                throw new \RuntimeException('Can not generate jobs for orderType=' . $order->type);
+        $strategy = $this->generateStrategyResolver->resolve($order->type);
+        $createdJobs = $strategy->generate($orderReference, new \DateTime(), self::DAYS_IN_FUTURE);
+        foreach ($createdJobs as $job) {
+            $this->jobRepository->persistJob(
+                $job->getReference(),
+                $job->getOrderReference(),
+                $job->getAppointment()
+            );
         }
 
-        return $createdJobs;
+        return count($createdJobs);
     }
 }
