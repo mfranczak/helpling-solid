@@ -8,6 +8,7 @@
 namespace Helpling\Console\Command;
 
 
+use Helpling\Solid\FizzBuzz\DivideableRule;
 use Helpling\Solid\FizzBuzz\FizzBuzzService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -35,7 +36,11 @@ class FizzBuzzCommand extends Command
      */
     private function createFizzBuzz()
     {
-        return new FizzBuzzService();
+        $fizzBuzzService = new FizzBuzzService();
+        $fizzBuzzService->addRule(new DivideableRule('FizzBuzz', [3, 5]));
+        $fizzBuzzService->addRule(new DivideableRule('Fizz', [3]));
+        $fizzBuzzService->addRule(new DivideableRule('Buzz', [5]));
+        return $fizzBuzzService;
     }
 
 }
