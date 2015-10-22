@@ -8,6 +8,7 @@
 namespace Helpling\Console;
 
 
+use Helpling\Console\Command\FizzBuzzCommand;
 use Helpling\Console\Command\HelloWorldCommand;
 use Helpling\Console\Command\JobsExportCommand;
 use Helpling\Console\Command\JobsGenerateCommand;
@@ -87,6 +88,7 @@ class Application extends \Symfony\Component\Console\Application
     private function registerCommands()
     {
         $this->add(new HelloWorldCommand());
+        $this->add(new FizzBuzzCommand());
         $this->add($this->createOrderShowCommand());
         $this->add($this->createJobsListCommand());
         $this->add($this->createJobsGenerateCommand());
