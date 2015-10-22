@@ -10,10 +10,7 @@ namespace Helpling\Solid\Job;
 use Helpling\Solid\Job\Entity\Job;
 use Helpling\Solid\Job\Repository\JobRepositoryInterface;
 
-use Helpling\Solid\Job\Entity\Job;
-
 class SqliteJobRepository implements JobRepositoryInterface
-class JobRepository implements JobRepositoryInterface
 {
     /**
      * @var \PDO
@@ -60,15 +57,4 @@ class JobRepository implements JobRepositoryInterface
         }
         return $result;
     }
-
-    private function convert($array)
-    {
-        $result = [];
-        foreach ($array as $object)
-        {
-            $result[] = new Job($object->order_reference, new \DateTime($object->appointment), $object->reference);
-        }
-        return $result;
-    }
-
 }

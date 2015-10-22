@@ -8,7 +8,7 @@
 namespace Helpling\Console\Command;
 
 
-use Helpling\Solid\Job\JobRepositoryInterface;
+use Helpling\Solid\Job\Repository\JobRepositoryInterface;
 use Helpling\SystemService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

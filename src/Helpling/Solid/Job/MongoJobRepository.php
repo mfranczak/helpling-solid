@@ -9,6 +9,7 @@ namespace Helpling\Solid\Job;
 
 
 use Helpling\Solid\Job\Entity\Job;
+use Helpling\Solid\Job\Repository\JobRepositoryInterface;
 
 class MongoJobRepository implements JobRepositoryInterface
 {

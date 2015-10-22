@@ -9,6 +9,7 @@ namespace Helpling\Solid\Job;
 
 
 use Helpling\Solid\Job\Generator\OrderTypeStrategyResolver;
+use Helpling\Solid\Job\Repository\JobRepositoryInterface;
 use Helpling\Solid\Order\OrderRepository;
 
 class GenerateService
