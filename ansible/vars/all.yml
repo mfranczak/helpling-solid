@@ -1,6 +1,7 @@
 ---
 server:
     install: '1'
+    packages: [git]
     timezone: UTC
     locale: en_US.UTF-8
 vagrant_local:
@@ -10,9 +11,6 @@ mongodb:
     install: '1'
 sqlite:
     install: '1'
-redis:
-    install: '1'
-    port: '6379'
 php:
     install: '1'
     ppa: php5-5.6
