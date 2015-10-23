@@ -18,3 +18,5 @@ INSERT INTO orders (reference, type) VALUES ('DEO100', 'once');
 INSERT INTO orders (reference, type) VALUES ('DEO101', 'once');
 INSERT INTO orders (reference, type) VALUES ('DEO200', 'weekly');
 INSERT INTO orders (reference, type) VALUES ('DEO201', 'weekly');
+INSERT INTO orders (reference, type) VALUES ('DEO300', 'biweekly');
+INSERT INTO orders (reference, type) VALUES ('DEO301', 'biweekly');
