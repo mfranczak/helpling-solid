@@ -8,9 +8,9 @@
 namespace Helpling\Solid\Job\Repository\File;
 
 
-use Helpling\Solid\Job\Repository\PersistJobInterface;
+use Helpling\Solid\Job\Repository\JobRepositoryInterface;
 
-class FilePersistJob implements PersistJobInterface
+class FilePersistJob implements JobRepositoryInterface
 {
     private $handle;
 
@@ -39,5 +39,10 @@ class FilePersistJob implements PersistJobInterface
             $orderReference,
             $date->format('Y-m-d H:i:s')
         ]);
+    }
+
+    public function getJobs($reference)
+    {
+        throw new \Exception("Can't be implemented.");
     }
 }

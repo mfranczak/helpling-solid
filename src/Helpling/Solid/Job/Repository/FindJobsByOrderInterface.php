@@ -8,13 +8,7 @@
 namespace Helpling\Solid\Job\Repository;
 
 
-use Helpling\Solid\Job\Entity\Job;
-
 interface FindJobsByOrderInterface
 {
-    /**
-     * @param string $reference
-     * @return Job[]
-     */
-    public function getJobs($reference);
+
 }

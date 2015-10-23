@@ -10,11 +10,5 @@ namespace Helpling\Solid\Job\Repository;
 
 interface PersistJobInterface
 {
-    /**
-     * @param $reference
-     * @param $orderReference
-     * @param \DateTime $date
-     * @return mixed
-     */
-    public function persistJob($reference, $orderReference, \DateTime $date);
+
 }

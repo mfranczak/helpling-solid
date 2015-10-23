@@ -8,24 +8,23 @@
 namespace Helpling\Solid\Job;
 
 
-use Helpling\Solid\Job\Repository\FindJobsByOrderInterface;
-use Helpling\Solid\Job\Repository\PersistJobInterface;
+use Helpling\Solid\Job\Repository\JobRepositoryInterface;
 
 class ExportService
 {
     /**
-     * @var PersistJobInterface
+     * @var JobRepositoryInterface
      */
     private $target;
 
     /**
-     * @var FindJobsByOrderInterface
+     * @var JobRepositoryInterface
      */
     private $source;
 
     public function __construct(
-        FindJobsByOrderInterface $source,
-        PersistJobInterface $target
+        JobRepositoryInterface $source,
+        JobRepositoryInterface $target
     ) {
         $this->source = $source;
         $this->target = $target;
