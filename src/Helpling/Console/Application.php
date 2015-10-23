@@ -28,7 +28,7 @@ use Pimple\Container;
 
 class Application extends \Symfony\Component\Console\Application
 {
-    const DEFAULT_JOB_REPOSITORY = 'mongoJobRepository';
+    const DEFAULT_JOB_REPOSITORY = 'sqliteJobRepository';
 
     /**
      * @var Container

@@ -33,7 +33,7 @@ class GenerateService
 
     public function __construct(
         OrderRepository $orderRepository,
-        JobRepositoryInterface $jobRepository,
+        SqliteJobRepository $jobRepository,
         OrderTypeStrategyResolver $generateStrategyResolver
     ) {
         $this->orderRepository = $orderRepository;

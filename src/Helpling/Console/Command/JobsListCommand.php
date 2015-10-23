@@ -8,7 +8,7 @@
 namespace Helpling\Console\Command;
 
 
-use Helpling\Solid\Job\Repository\JobRepositoryInterface;
+use Helpling\Solid\Job\SqliteJobRepository;
 use Helpling\SystemService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,11 +18,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class JobsListCommand extends Command
 {
     /**
-     * @var JobRepositoryInterface
+     * @var SqliteJobRepository
      */
     private $jobRepository;
 
-    public function setJobRepository(JobRepositoryInterface $jobRepository)
+    public function setJobRepository(SqliteJobRepository $jobRepository)
     {
         $this->jobRepository = $jobRepository;
     }
