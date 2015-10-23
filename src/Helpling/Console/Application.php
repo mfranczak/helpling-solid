@@ -59,10 +59,6 @@ class Application extends \Symfony\Component\Console\Application
 
         $this->container['jobService'] = function ($c) {
             $strategyResolver = new OrderTypeStrategyResolver();
-            $strategyResolver->addStrategy('once', new OneJobGenerateStrategy());
-            $strategyResolver->addStrategy('weekly', new FrequentGenerateStrategy(7));
-            $strategyResolver->addStrategy('biweekly', new FrequentGenerateStrategy(14));
-
             return new JobService(
                 $c['orderRepository'],
                 $c['jobRepository'],
